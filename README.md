@@ -30,7 +30,9 @@ prometheus_node_exporter_pid_path:     '{{ prometheus_pid_path }}'
 prometheus_node_exporter_user:         '{{ prometheus_user }}'
 prometheus_node_exporter_group:        '{{ prometheus_group }}'
 prometheus_node_exporter_loglevel:     '{{ prometheus_loglevel }}'
-prometheus_node_exporter_weblisten:    '9100'
+prometheus_node_exporter_listen:       '{{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}'
+prometheus_node_exporter_listen_port:  '9100'
+prometheus_node_exporter_listen_ip:    ''
 prometheus_node_exporter_version:      '0.17.0'
 
 enable_ufw:                            false
