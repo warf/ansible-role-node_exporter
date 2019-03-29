@@ -4,7 +4,7 @@ START=yes
 
 #
 STARTUP_ARGS=' \
-			--web.listen-address :{{ prometheus_node_exporter_weblisten }} \
+			--web.listen-address {{ prometheus_node_exporter_listen }} \
 			--collector.ntp.server=127.0.0.1 \
 			--collector.ntp \
 			--collector.systemd \
