@@ -12,4 +12,3 @@
     port: '{{ prometheus_node_exporter_weblisten }}'
     direction: in
   loop: '{{ prometheus_node_exporter_src_access }}'
-
