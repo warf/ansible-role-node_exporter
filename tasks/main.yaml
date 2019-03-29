@@ -1,0 +1,17 @@
+---
+
+- name: install prometheus node_exporter
+  include: install.yaml
+  tags:
+    - prometheus
+    - node_exporter
+
+- name: ufw | open access to node_exporter
+  include: ufw.yaml
+  when: enable_ufw
+  tags:
+    - prometheus
+    - node_exporter
+    - ufw
+
+

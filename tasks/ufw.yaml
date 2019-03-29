@@ -1,0 +1,15 @@
+---
+- name: include ufw role
+  include_role:
+    name: ufw
+
+- name: enable ufw for node_exporter
+  ufw:
+    comment: 'Prometheus node_exporter'
+    rule: allow
+    src: '{{ item }}'
+    proto: tcp
+    port: '{{ prometheus_node_exporter_weblisten }}'
+    direction: in
+  loop: '{{ prometheus_node_exporter_src_access }}'
+
