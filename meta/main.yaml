@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Tomasz Baczynski
   description: Install and setup node_exporter agent service

@@ -11,7 +11,7 @@
 
 - name: set internal variables for convenience
   set_fact:
-    prometheus_node_exporter_subdir: "{{ prometheus_node_exporter_install_path }}/node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}"
+    prometheus_node_exporter_subdir: "{{ prometheus_node_exporter_install_path }}/node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}"  # noqa 204
 
 - name: set internal variables for convenience
   set_fact:
@@ -19,9 +19,8 @@
 
 - name: set download url for versions
   set_fact:
-    prometheus_node_exporter_tarball_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}.tar.gz" # noqa 204
+    prometheus_node_exporter_tarball_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}.tar.gz"  # noqa 204
 
-#####
 - name: create Prometheus group
   group:
     name: '{{ prometheus_node_exporter_group }}'
