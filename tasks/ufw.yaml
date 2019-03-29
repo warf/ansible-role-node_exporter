@@ -9,6 +9,6 @@
     rule: allow
     src: '{{ item }}'
     proto: tcp
-    port: '{{ prometheus_node_exporter_weblisten }}'
+    port: '{{ prometheus_node_exporter_listen_port }}'
     direction: in
   loop: '{{ prometheus_node_exporter_src_access }}'
