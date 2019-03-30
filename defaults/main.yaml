@@ -1,24 +1,24 @@
 ---
 # defaults file for node_exporter
 
-prometheus_user:                       prometheus
-prometheus_group:                      prometheus
-prometheus_install_path:               '/opt/prometheus'
-prometheus_config_path:                '/etc/prometheus'
-prometheus_pid_path:                   '/var/run/prometheus'
-prometheus_loglevel:                   'info'
+prometheus_user: prometheus
+prometheus_group: prometheus
+prometheus_install_path: '/opt/prometheus'
+prometheus_config_path: '/etc/prometheus'
+prometheus_pid_path: '/var/run/prometheus'
+prometheus_loglevel: 'info'
 
 prometheus_node_exporter_install_path: '{{ prometheus_install_path }}'
-prometheus_node_exporter_config_path:  '{{ prometheus_config_path }}'
-prometheus_node_exporter_pid_path:     '{{ prometheus_pid_path }}'
-prometheus_node_exporter_user:         '{{ prometheus_user }}'
-prometheus_node_exporter_group:        '{{ prometheus_group }}'
-prometheus_node_exporter_loglevel:     '{{ prometheus_loglevel }}'
-prometheus_node_exporter_listen:       '{{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}'
-prometheus_node_exporter_listen_port:  '9100'
-prometheus_node_exporter_listen_ip:    ''
-prometheus_node_exporter_version:      '0.17.0'
+prometheus_node_exporter_config_path: '{{ prometheus_config_path }}'
+prometheus_node_exporter_pid_path: '{{ prometheus_pid_path }}'
+prometheus_node_exporter_user: '{{ prometheus_user }}'
+prometheus_node_exporter_group: '{{ prometheus_group }}'
+prometheus_node_exporter_loglevel: '{{ prometheus_loglevel }}'
+prometheus_node_exporter_listen: '{{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}'
+prometheus_node_exporter_listen_port: '9100'
+prometheus_node_exporter_listen_ip: ''
+prometheus_node_exporter_version: '0.17.0'
 
-enable_ufw:                            false
+enable_ufw: false
 prometheus_node_exporter_src_access:
   - "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
