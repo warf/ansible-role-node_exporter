@@ -1,0 +1,8 @@
+image:
+  name: python
+
+stages:
+  - test
+
+lint:
+  stage: test
