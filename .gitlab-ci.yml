@@ -6,3 +6,6 @@ stages:
 
 lint:
   stage: test
+  script:
+    - id
+    - pwd
