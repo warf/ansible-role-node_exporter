@@ -1,0 +1,16 @@
+image:
+  name: python
+
+stages:
+  - test
+
+lint:
+  stage: test
+  only:
+    refs:
+      - master
+      - web
+  script:
+    - 'pip install ansible-lint'
+    - 'ansible-lint -v .'
+
