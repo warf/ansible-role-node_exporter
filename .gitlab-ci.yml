@@ -14,5 +14,5 @@ lint:
   script:
     - 'pip install ansible-lint yamllint'
     - 'ansible-lint -v .'
-    - 'yamllint -c .yamllint .'
+    - 'yamllint -c .yamllint.yml .'
 ...
