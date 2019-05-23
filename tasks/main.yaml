@@ -8,7 +8,7 @@
 
 - name: ufw | open access to node_exporter
   include: ufw.yaml
-  when: enable_ufw
+  when: enable_ufw | bool
   tags:
     - prometheus
     - node_exporter
