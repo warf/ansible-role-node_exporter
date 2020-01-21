@@ -5,7 +5,7 @@ prometheus_user: prometheus
 prometheus_group: prometheus
 prometheus_install_path: '/opt/prometheus'
 prometheus_config_path: '/etc/prometheus'
-prometheus_pid_path: '/var/run/prometheus'
+prometheus_pid_path: '/var/run'
 prometheus_loglevel: 'info'
 
 prometheus_node_exporter_install_path: '{{ prometheus_install_path }}'
