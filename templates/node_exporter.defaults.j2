@@ -3,11 +3,4 @@
 START=yes
 
 #
-STARTUP_ARGS="\
-  --web.listen-address {{ prometheus_node_exporter_listen }} \
-  --collector.ntp.server=127.0.0.1 \
-  --collector.ntp \
-  --collector.systemd \
-  --log.level={{ prometheus_node_exporter_loglevel }} \
-  --collector.filesystem.ignored-fs-types=\"^(sys|proc|auto|tmp|ns)fs|overlay$\" \
-"
+STARTUP_ARGS=' --web.listen-address {{ prometheus_node_exporter_listen }} --collector.ntp.server=127.0.0.1 --collector.ntp --collector.systemd --log.level={{ prometheus_node_exporter_loglevel }} --collector.filesystem.ignored-fs-types=\"^(sys|proc|auto|tmp|ns)fs|overlay$\" '
