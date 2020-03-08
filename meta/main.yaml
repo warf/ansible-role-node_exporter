@@ -15,7 +15,10 @@ galaxy_info:
         - bionic
     - name: Debian
       versions:
+        - buster
+        - stretch
         - jessie
+        - wheezy
 
   galaxy_tags:
     - system
