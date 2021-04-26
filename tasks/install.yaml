@@ -54,6 +54,7 @@
     group: '{{ prometheus_node_exporter_group }}'
     copy: no
     creates: '{{ prometheus_node_exporter_subdir }}'
+    validate_certs: '{{ prometheus_node_exporter_validate_certs }}'
   notify:
     - restart node_exporter
 

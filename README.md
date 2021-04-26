@@ -43,6 +43,8 @@ prometheus_node_exporter_src_access:
 For typical deployment you can eventually define enable ufw fw and define src access list
 Based on defined variables you can set variables common for all prometheus stack
 
+For Debian7 you can use `prometheus_node_exporter_validate_certs=false` to resolve problem with github cert (it's not recommended).
+
 Dependencies
 ------------
 
