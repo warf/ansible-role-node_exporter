@@ -17,7 +17,7 @@ prometheus_node_exporter_loglevel: '{{ prometheus_loglevel }}'
 prometheus_node_exporter_listen: '{{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}'
 prometheus_node_exporter_listen_port: '9100'
 prometheus_node_exporter_listen_ip: ''
-prometheus_node_exporter_version: '0.17.0'
+prometheus_node_exporter_version: '1.3.1'
 prometheus_node_exporter_validate_certs: true
 
 enable_ufw: false
