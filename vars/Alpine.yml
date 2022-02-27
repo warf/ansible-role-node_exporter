@@ -1,0 +1,3 @@
+---
+prometheus_pid_path: /run/
+prometheus_node_exporter_args_path: /etc/conf.d/node_exporter
