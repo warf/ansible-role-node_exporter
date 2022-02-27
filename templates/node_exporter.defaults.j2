@@ -1,10 +1,7 @@
-# Prometheus SNMP Exporter defaults
+# Prometheus Node Exporter defaults
 #
 START=yes
-
-#
-STARTUP_ARGS=" --web.listen-address {{ prometheus_node_exporter_listen }}
+STARTUP_ARGS="--web.listen-address {{ prometheus_node_exporter_listen }}
         --collector.ntp.server=127.0.0.1 --collector.ntp --collector.systemd --log.level=info
         --collector.filesystem.fs-types-exclude='^(sys|proc|auto|tmp|ns|squash)fs|overlay$'
-        --collector.filesystem.mount-points-exclude='^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)'
-        "
+        --collector.filesystem.mount-points-exclude='^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)'"

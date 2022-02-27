@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+supervisor=supervise-daemon
+
+name="Prometheus Node Exporter"
+pidfile="/var/run/${RC_SVCNAME}.pid"
+command_background="yes"
+group="{{ prometheus_node_exporter_user }}"
+user="{{ prometheus_node_exporter_group }}"
+start_stop_daemon_args="--user $user --group $group"
+
+depend() {
+	need net
+	after firewall
+}
+
+command="{{ prometheus_node_exporter_daemon_dir }}/node_exporter"
+command_args="$STARTUP_ARGS"
