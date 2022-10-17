@@ -1,10 +1,10 @@
 ---
 - name: include ufw role
-  include_role:
+  ansible.builtin.include_role:
     name: ufw
 
 - name: enable ufw for node_exporter
-  ufw:
+  community.general.ufw:
     comment: 'Prometheus node_exporter'
     rule: allow
     src: '{{ item }}'

@@ -1,15 +1,17 @@
 ---
-- name: restart node_exporter
-  service:
+- name: Restart node_exporter
+  ansible.builtin.service:
     name: node_exporter
     state: restarted
   tags:
     - prometheus
     - node_exporter
 
-- name: systemd reload node_exporter
-  systemd:
-    daemon_reload: yes
+- name: Systemd reload node_exporter
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when:
+    ansible_service_mgr == "systemd"
   tags:
     - prometheus
     - node_exporter

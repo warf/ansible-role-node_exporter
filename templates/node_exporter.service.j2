@@ -1,20 +1,19 @@
 [Unit]
-Description=Prometheus node Exporter
+Description=Prometheus node exporter
 Documentation=https://github.com/prometheus/node_exporter
 After=network-online.target
 
 [Service]
 Type=simple
-PIDFile={{ prometheus_node_exporter_pid_path }}/node_exporter.pid
-EnvironmentFile=-/etc/default/node_exporter
+PIDFile={{ prometheus_node_exporter_pid_path }}/{{ prometheus_node_exporter_name }}.pid
+EnvironmentFile=-/etc/default/{{ prometheus_node_exporter_name }}
 User={{ prometheus_node_exporter_user }}
 Group={{ prometheus_node_exporter_group }}
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart={{ prometheus_node_exporter_daemon_dir }}/node_exporter $STARTUP_ARGS
+ExecStart={{ prometheus_node_exporter_daemon_dir }}/{{ prometheus_node_exporter_name }} $STARTUP_ARGS
 
-SyslogIdentifier=prometheus-node_exporter
+SyslogIdentifier=prometheus-{{ prometheus_node_exporter_name }}
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
-

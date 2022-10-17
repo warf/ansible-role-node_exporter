@@ -1,136 +1,108 @@
 ---
-- name: set internal variable platform-suffix for convenience
-  set_fact:
-    prometheus_platform_suffix: "linux-amd64"
-  when: ansible_architecture == "x86_64"
+- name: Include architecture mappings
+  ansible.builtin.include_vars: architecture.yml
 
-- name: set internal variable platform-suffix for convenience
-  set_fact:
-    prometheus_platform_suffix: "linux-armv7"
-  when: ansible_architecture == "armv7l"
+- name: Set platform-suffix for architecture
+  ansible.builtin.set_fact:
+    prometheus_platform_suffix: '{{ prometheus_arch[ansible_architecture] }}'
 
-- name: set internal variable platform-suffix for convenience
-  set_fact:
-    prometheus_platform_suffix: "linux-arm64"
-  when: ansible_architecture == "aarch64"
-
-- name: set internal variables for convenience
-  set_fact:
-    prometheus_node_exporter_subdir: "{{ prometheus_node_exporter_install_path }}/\
-      node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}"
-    prometheus_node_exporter_daemon_dir: "{{ prometheus_node_exporter_install_path }}/\
-      node_exporter"
-
-- name: set download url for versions
-  set_fact:
-    prometheus_node_exporter_tarball_url: "https://github.com/\
-      prometheus/node_exporter/releases/download/\
-      v{{ prometheus_node_exporter_version }}/\
-      node_exporter-{{ prometheus_node_exporter_version }}.{{ prometheus_platform_suffix }}.tar.gz"
-
-- name: create Prometheus group
-  group:
+- name: Create group for prometheus node_exporter
+  ansible.builtin.group:
     name: '{{ prometheus_node_exporter_group }}'
     state: present
 
-- name: create Prometheus user
-  user:
+- name: Create user for prometheus node_exporter
+  ansible.builtin.user:
     name: "{{ prometheus_node_exporter_user }}"
     group: "{{ prometheus_node_exporter_group }}"
-    createhome: no
+    create_home: false
     shell: /sbin/nologin
     comment: "Prometheus User"
     state: present
 
-- name: mkdir for prometheus and node_exporter
-  file:
-    path: "{{ item }}"
+- name: Create directory for node_exporter
+  ansible.builtin.file:
+    path: '{{ prometheus_node_exporter_install_path }}'
     state: directory
-    owner: "{{ prometheus_node_exporter_user }}"
-    group: "{{ prometheus_node_exporter_group }}"
+    owner: '{{ prometheus_node_exporter_user }}'
+    group: '{{ prometheus_node_exporter_group }}'
     mode: 0750
-  loop:
-    - "{{ prometheus_node_exporter_install_path }}"
 
-- name: untar downloaded node_exporter tarball
-  unarchive:
-    src: '{{ prometheus_node_exporter_tarball_url }}'
+- name: Download and unarchive node_exporter tarball
+  ansible.builtin.unarchive:
+    src: '{{ prometheus_node_exporter_url }}'
     dest: '{{ prometheus_node_exporter_install_path }}'
     owner: '{{ prometheus_node_exporter_user }}'
     group: '{{ prometheus_node_exporter_group }}'
-    copy: no
-    creates: '{{ prometheus_node_exporter_subdir }}'
+    copy: false
+    creates: "{{ prometheus_node_exporter_install_path }}\
+      /{{ prometheus_node_exporter_name }}\
+      -{{ prometheus_node_exporter_version }}\
+      .{{ prometheus_platform_suffix }}"
   notify:
-    - restart node_exporter
+    - Restart node_exporter
 
-- name: link current version
-  file:
+- name: Link current version
+  ansible.builtin.file:
     state: link
-    src: '{{ prometheus_node_exporter_subdir }}'
-    dest: '{{ prometheus_node_exporter_daemon_dir }}'
+    src: "{{ prometheus_node_exporter_install_path }}\
+      /{{ prometheus_node_exporter_name }}\
+      -{{ prometheus_node_exporter_version }}\
+      .{{ prometheus_platform_suffix }}"
+    dest: "{{ prometheus_node_exporter_install_path }}\
+      /{{ prometheus_node_exporter_name }}"
   notify:
-    - restart node_exporter
-    - systemd reload node_exporter
+    - Restart node_exporter
+    - Systemd reload node_exporter
 
-- name: copy node_exporter systemd profile
-  template:
+- name: Copy node_exporter systemd unit file
+  ansible.builtin.template:
     src: 'node_exporter.service.j2'
-    dest: '/lib/systemd/system/node_exporter.service'
+    dest: '/lib/systemd/system/{{ prometheus_node_exporter_name }}.service'
     owner: root
     group: root
     mode: 0644
   notify:
-    - systemd reload node_exporter
+    - Systemd reload node_exporter
   when: ansible_service_mgr == "systemd"
 
-- name: copy node_exporter sysvinit profile
-  template:
-    src: 'node_exporter.initd.j2'
-    dest: '/etc/init.d/node_exporter'
+- name: Copy node_exporter profile
+  ansible.builtin.template:
+    src: 'node_exporter.{{ ansible_service_mgr }}.j2'
+    dest: '/etc/init.d/{{ prometheus_node_exporter_name }}'
     owner: root
     group: root
     mode: 0755
   notify:
-    - restart node_exporter
-  when: ansible_service_mgr == "sysvinit"
+    - Restart node_exporter
+  when:
+    - ansible_service_mgr == "sysvinit"
+      or ansible_service_mgr == "openrc"
 
-- name: copy node_exporter openrc profile
-  template:
-    src: 'node_exporter.openrc.j2'
-    dest: '/etc/init.d/node_exporter'
-    owner: root
-    group: root
-    mode: 0755
-  notify:
-    - restart node_exporter
-  when: ansible_service_mgr == "openrc"
-
-- name: copy node_exporter startup config
-  template:
+- name: Copy node_exporter startup defaults
+  ansible.builtin.template:
     src: 'node_exporter.defaults.j2'
-    dest: '{{ prometheus_node_exporter_args_path }}'
+    dest: '/etc/default/{{ prometheus_node_exporter_name }}'
     owner: '{{ prometheus_node_exporter_user }}'
     group: '{{ prometheus_node_exporter_group }}'
     mode: 0640
   when: ansible_service_mgr == "systemd"
   notify:
-    - restart node_exporter
+    - Restart node_exporter
 
-- name: copy node_exporter startup config
-  vars:
-    prometheus_node_exporter_args_path: '/etc/conf.d/node_exporter'
-  template:
+- name: Copy node_exporter startup config for openrc
+  ansible.builtin.template:
     src: 'node_exporter.defaults.j2'
-    dest: '{{ prometheus_node_exporter_args_path }}'
+    dest: '/etc/conf.d/{{ prometheus_node_exporter_name }}'
     owner: '{{ prometheus_node_exporter_user }}'
     group: '{{ prometheus_node_exporter_group }}'
     mode: 0640
   when: ansible_service_mgr == "openrc"
   notify:
-    - restart node_exporter
+    - Restart node_exporter
 
-- name: node_exporter service enable
-  service:
+- name: Enable service for node_exporter
+  ansible.builtin.service:
     name: node_exporter
     state: started
     enabled: true
