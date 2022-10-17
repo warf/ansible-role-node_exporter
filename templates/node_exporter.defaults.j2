@@ -1,7 +1,17 @@
 # Prometheus Node Exporter defaults
 #
 START=yes
-STARTUP_ARGS="--web.listen-address {{ prometheus_node_exporter_listen }}
-        --collector.ntp.server=127.0.0.1 --collector.ntp --collector.systemd --log.level=info
+STARTUP_ARGS="--web.listen-address {{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}
+{% if prometheus_node_exporter_collectors.ntp.enabled %}
+        --collector.ntp
+        --collector.ntp.server={{ prometheus_node_exporter_collectors.ntp.server }}
+{% endif %}
+{% if prometheus_node_exporter_collectors.ethtool %}
+        --collector.ethtool
+{% endif %}
+{% if ansible_service_mgr=="systemd" %}
+        --collector.systemd
+{% endif %}
+        --log.level={{ prometheus_node_exporter_loglevel }}
         --collector.filesystem.fs-types-exclude='^(sys|proc|auto|tmp|ns|squash)fs|overlay$'
         --collector.filesystem.mount-points-exclude='^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)'"

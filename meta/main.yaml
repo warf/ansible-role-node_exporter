@@ -1,24 +1,28 @@
 ---
 galaxy_info:
   author: Tomasz Baczynski
-  description: Install and setup node_exporter agent service
-  company: BulIT
+  description: Install and setup prometheus node_exporter
 
   license: BSD
 
-  min_ansible_version: 2.7
+  min_ansible_version: 2.12
 
   platforms:
     - name: Ubuntu
       versions:
         - xenial
         - bionic
+        - focal
+        - jammy
     - name: Debian
       versions:
+        - bullseye
         - buster
         - stretch
         - jessie
         - wheezy
+    - name: Raspbian
+    - name: Rocky
 
   galaxy_tags:
     - system

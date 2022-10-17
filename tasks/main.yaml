@@ -1,12 +1,12 @@
 ---
-- name: install prometheus node_exporter
-  include: install.yaml
+- name: Install prometheus node_exporter
+  ansible.builtin.include_tasks: install.yaml
   tags:
     - prometheus
     - node_exporter
 
-- name: ufw | open access to node_exporter
-  include: ufw.yaml
+- name: UFW | open access to node_exporter
+  ansible.builtin.include_tasks: ufw.yaml
   when: enable_ufw | bool
   tags:
     - prometheus

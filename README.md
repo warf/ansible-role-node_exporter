@@ -30,10 +30,9 @@ prometheus_node_exporter_pid_path:     '{{ prometheus_pid_path }}'
 prometheus_node_exporter_user:         '{{ prometheus_user }}'
 prometheus_node_exporter_group:        '{{ prometheus_group }}'
 prometheus_node_exporter_loglevel:     '{{ prometheus_loglevel }}'
-prometheus_node_exporter_listen:       '{{ prometheus_node_exporter_listen_ip }}:{{ prometheus_node_exporter_listen_port }}'
 prometheus_node_exporter_listen_port:  '9100'
 prometheus_node_exporter_listen_ip:    ''
-prometheus_node_exporter_version:      '0.17.0'
+prometheus_node_exporter_version:      '1.4.0'
 
 enable_ufw:                            false
 prometheus_node_exporter_src_access:
@@ -41,9 +40,7 @@ prometheus_node_exporter_src_access:
 ```
 
 For typical deployment you can eventually define enable ufw fw and define src access list
-Based on defined variables you can set variables common for all prometheus stack
-
-For Debian7 you can use `prometheus_node_exporter_validate_certs=false` to resolve problem with github cert (it's not recommended).
+Based on defined variables you can set variables common for all prometheus stack.
 
 Dependencies
 ------------
@@ -70,4 +67,4 @@ Author Information
 ------------------
 
 Tomasz Baczynski
-
+Michal Luczak
