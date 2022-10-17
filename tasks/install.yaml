@@ -34,7 +34,7 @@
     dest: '{{ prometheus_node_exporter_install_path }}'
     owner: '{{ prometheus_node_exporter_user }}'
     group: '{{ prometheus_node_exporter_group }}'
-    copy: no
+    copy: false
     creates: "{{ prometheus_node_exporter_install_path }}\
       /{{ prometheus_node_exporter_name }}\
       -{{ prometheus_node_exporter_version }}\

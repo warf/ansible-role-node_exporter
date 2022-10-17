@@ -5,7 +5,7 @@ galaxy_info:
 
   license: BSD
 
-  min_ansible_version: 2.12
+  min_ansible_version: '2.12'
 
   platforms:
     - name: Ubuntu
@@ -21,8 +21,9 @@ galaxy_info:
         - stretch
         - jessie
         - wheezy
-    - name: Raspbian
-    - name: Rocky
+    - name: EL
+      versions:
+        - "8"  # Rocky - GreenObsidian
 
   galaxy_tags:
     - system

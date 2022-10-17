@@ -17,7 +17,6 @@ prometheus_node_exporter_loglevel: '{{ prometheus_loglevel }}'
 prometheus_node_exporter_listen_port: '9100'
 prometheus_node_exporter_listen_ip: ''
 prometheus_node_exporter_version: '1.4.0'
-prometheus_node_exporter_args_path: '/etc/default/{{ prometheus_node_exporter_name }}'
 
 prometheus_node_exporter_daemon_dir: "{{ prometheus_install_path }}\
       /{{ prometheus_node_exporter_name }}"
@@ -26,7 +25,8 @@ prometheus_node_exporter_path: "{{ prometheus_node_exporter_name }}\
       .{{ prometheus_arch }}"
 prometheus_node_exporter_url: "https://github.com/prometheus/node_exporter/\
       releases/download/v{{ prometheus_node_exporter_version }}/\
-      {{ prometheus_node_exporter_name }}-{{ prometheus_node_exporter_version }}.\
+      {{ prometheus_node_exporter_name }}\
+      -{{ prometheus_node_exporter_version }}.\
       {{ prometheus_platform_suffix }}.tar.gz"
 
 enable_ufw: false
